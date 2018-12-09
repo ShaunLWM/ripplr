@@ -26,6 +26,7 @@ class TumblrRipper extends AbstractRipper {
         this.TUMBLR_AUTH_CONFIG_KEY = "tumblr.auth";
         this.useDefaultApiKey = false;
         this.API_KEY = null;
+        this.tagBeforeTimestamp = Math.round((new Date()).getTime() / 1000);
         if (this.getApiKey() === null) {
             throw new Error("Could not find tumblr authentication key in configuration");
         }
@@ -96,8 +97,7 @@ class TumblrRipper extends AbstractRipper {
         }
 
         if (this.albumType == this.ALBUM_TYPE.TAG) {
-            return `https://api.tumblr.com/v2/tagged/?api_key=${this.getApiKey()}&offet=${offset}&tag=${this.tagName}`;
-            // !TODO: this API uses limit, not offset - https://www.tumblr.com/docs/en/api/v2#tagged--get-posts-with-tag
+            return `https://api.tumblr.com/v2/tagged/?api_key=${this.getApiKey()}&limit=${this.limitIncrement}&tag=${this.tagName}&before=${this.tagBeforeTimestamp}`;
         }
 
         return `https://api.tumblr.com/v2/blog/${this.subdomain}/posts/${mediaType}?api_key=${this.getApiKey()}&offset=${offset}&limit=50`;
@@ -212,6 +212,10 @@ class TumblrRipper extends AbstractRipper {
         }
 
         posts.forEach(post => {
+            if (post.hasOwnProperty('timestamp') && post['timestamp'] !== null) {
+                this.tagBeforeTimestamp = post['timestamp'];
+            }
+
             if (post.hasOwnProperty('photos')) {
                 photos = post["photos"];
                 photos.forEach(photo => {
