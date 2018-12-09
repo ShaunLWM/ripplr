@@ -26,7 +26,7 @@ class ImgboxRipper extends AbstractRipper {
 
     async rip() {
         try {
-            let imageUrls = [];
+            let index = 1;
             let getInfo = new Request({ url: this.url });
             let result = await getInfo.commit(false);
             if (!isNaN(result)) { // if returned a status code
@@ -39,16 +39,15 @@ class ImgboxRipper extends AbstractRipper {
                 return;
             }
 
-            gallery.each((index, element) => {
+            gallery.each((i, element) => {
                 let image = $(element).find('img')
                 if (image.length > 0) {
                     let img = image.attr('src').replace(/thumbs/g, 'images').replace(/_b/g, '_o').replace(/\\d-s/g, 'i');
-                    console.log(img);
-                    imageUrls.push(img);
+                    // console.log(img);
+                    this.downloadUrl(img, index);
+                    index++;
                 }
             });
-
-            return imageUrls;
         } catch (e) {
             return console.error(`!> ${e}`)
         }
