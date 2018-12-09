@@ -10,8 +10,6 @@ class TumblrRipper extends AbstractRipper {
         this.limitIncrement = 50;
         this.DOMAIN = "tumblr.com";
         this.HOST = "tumblr";
-        this.IMAGE_PATTERN = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
-
         this.ALBUM_TYPE = {
             SUBDOMAIN: 0,
             TAG: 1,
@@ -33,8 +31,6 @@ class TumblrRipper extends AbstractRipper {
 
         this.setup();
     }
-
-
 
     getApiKey() {
         if (this.API_KEY === null) {
@@ -67,7 +63,7 @@ class TumblrRipper extends AbstractRipper {
             if (await this.isTumblrUrl()) {
                 console.debug(`>> detected tumblr site: ${this.url}`);
             } else {
-                console.debug(`!> not a tumblr site: ${this.url}`);
+                console.debug(`>> not a tumblr site: ${this.url}`);
             }
         }
     }
@@ -103,7 +99,7 @@ class TumblrRipper extends AbstractRipper {
         return `https://api.tumblr.com/v2/blog/${this.subdomain}/posts/${mediaType}?api_key=${this.getApiKey()}&offset=${offset}&limit=50`;
     }
 
-    getHost() {
+    get host() {
         return this.HOST;
     }
 
