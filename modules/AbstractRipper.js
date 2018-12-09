@@ -30,9 +30,9 @@ class Ripper {
             subdirectory = "bnn";
         }
 
-        fs.ensureDirSync(subdirectory);
         // console.log(`fn :${subdirectory}`)
         let saveFileAs = Path.join(__dirname, subdirectory);
+        // fs.ensureDirSync(subdirectory);
         //console.log(saveFileAs);
         this.jobManager.addJob({
             url,
