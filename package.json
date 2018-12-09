@@ -1,0 +1,14 @@
+{
+  "name": "ripplr",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ShaunLWM/ripplr.git",
+  "author": "ShaunLWM <shaunlimweimin@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.6.1",
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0",
+    "string-format-js": "^1.0.0"
+  }
+}
