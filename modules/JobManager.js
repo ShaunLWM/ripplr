@@ -5,33 +5,27 @@ const Arena = require('bull-arena');
 
 const express = require('express');
 const app = express();
+let arena = Arena({
+    queues: [{
+        name: 'download queue',
+        "hostId": "Downloader"
+    }]
+});
+
+app.use('/', arena);
+app.listen(8081, () => console.log(`Queue server listening on port 8081!`));
 
 class JobManager {
     constructor() {
         this.downloadqueue = new Queue('download queue');
-        this.arena = Arena({
-            queues: [{
-                name: 'download queue',
-                "hostId": "Downloader"
-            }]
-        });
-
-        app.use('/', this.arena);
-        app.listen(8081, () => console.log(`Example app listening on port 8081!`));
-
-
         this.downloadqueue.process(function (job, done) {
-            // download(job.data.url).pipe(fs.createWriteStream(job.data.dir));
-            // return done();
-            console.log(job.data.url, job.data.dir, job.data.fn);
+            // console.log(job.data.url, job.data.dir, job.data.fn);
             return download(job.data.url, job.data.dir, {
                 filename: job.data.fn
             }).then(() => {
                 console.log(`Done ${job.data.url}`);
                 return done();
             });
-
-            return done();
         });
     }
 
