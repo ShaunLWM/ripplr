@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 
 class TumblrRipper extends AbstractRipper {
     constructor(url) {
-        super(url);
+        super({ url });
         this.index = 1;
         this.limitIncrement = 50;
         this.DOMAIN = "tumblr.com";

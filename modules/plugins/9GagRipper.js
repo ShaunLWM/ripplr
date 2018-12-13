@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 
 class NineGagRipper extends AbstractRipper {
     constructor(url) {
-        super(url);
+        super({ url });
         this.index = 1;
         this.DOMAIN = "9gag.com";
         this.HOST = "9gag";

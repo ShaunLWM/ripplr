@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 
 class ImgboxRipper extends AbstractRipper {
     constructor(url) {
-        super(url);
+        super({ url });
     }
 
     getHost() {

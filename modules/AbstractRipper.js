@@ -5,8 +5,9 @@ const JobManager = require('./JobManager');
 const fs = require('fs-extra');
 
 class Ripper {
-    constructor(url) {
+    constructor({ url, directory = "ripplr" }) {
         this.url = url; // !TODO sanitizeUrl
+        this.directory = directory;
         this.shouldStopNow = false;
         this.jobManager = new JobManager();
     }
@@ -21,13 +22,13 @@ class Ripper {
 
     addURLToDownload(url, prefix, subdirectory = null, referrer = null, cookies = null, fileName = null, extension = null, getFileExtFromMime = false) {
         // TODO: check if download before
-        console.log('>> [ar addURLToDownload] done: ' + url, prefix);
+        console.log('>> [ar] added: ' + url, prefix);
         let fn = this.getfn({ url, prefix: Utils.filesystemSanitized(prefix) });
         //console.log(`fn :${fn}`)
         if (subdirectory !== null) {
             subdirectory = Utils.filesystemSafe(subdirectory);
         } else {
-            subdirectory = "bnn";
+            subdirectory = this.directory;
         }
 
         // console.log(`fn :${subdirectory}`)
