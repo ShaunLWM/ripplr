@@ -49,7 +49,7 @@ class ImgboxRipper extends AbstractRipper {
                 }
             });
         } catch (e) {
-            return console.error(`!> ${e}`)
+            return console.error(`!> ${e}`);
         }
     }
 
