@@ -18,17 +18,20 @@ class NineGagRipper extends AbstractRipper {
     }
 
     async rip() {
-        let BASE_URL = `https://9gag.com/v1/group-posts/group/default/type/hot?c=10${this.nextCursor}`;
-        try {
-            let getInfo = new Request({ url: BASE_URL });
-            let result = await getInfo.commit(false);
-            if (!isNaN(result)) { // if returned a status code, and not a success 200 code
+        let shouldContinue = true;
+        while (shouldContinue) {
+            try {
+                let BASE_URL = `https://9gag.com/v1/group-posts/group/default/type/hot?c=10${this.nextCursor}`;
+                let getInfo = new Request({ url: BASE_URL });
+                let result = await getInfo.commit(false);
+                if (!isNaN(result)) { // if returned a status code, and not a success 200 code
 
+                }
+
+                shouldContinue = this.handleJson(result);
+            } catch (e) {
+                console.error(`!> [9gag rip] error: ${e}`);
             }
-
-            this.handleJson(result);
-        } catch (e) {
-            console.error(`!> [9gag rip] error: ${e}`);
         }
     }
 
@@ -51,7 +54,7 @@ class NineGagRipper extends AbstractRipper {
             }
         });
 
-        console.log('>> Done parsing json.');
+        console.log('>> [9gag handleJson] done parsing json.');
         return true;
     }
 

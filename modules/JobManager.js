@@ -23,7 +23,8 @@ class JobManager {
             return download(job.data.url, job.data.dir, {
                 filename: job.data.fn
             }).then(() => {
-                console.log(`Done ${job.data.url}`);
+                console.log(`>> [jm] downloaded: ${job.data.url}`);
+                
                 return done();
             });
         });

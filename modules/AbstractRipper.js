@@ -21,7 +21,7 @@ class Ripper {
 
     addURLToDownload(url, prefix, subdirectory = null, referrer = null, cookies = null, fileName = null, extension = null, getFileExtFromMime = false) {
         // TODO: check if download before
-        console.log('>> download ' + url, prefix);
+        console.log('>> [ar addURLToDownload] done: ' + url, prefix);
         let fn = this.getfn({ url, prefix: Utils.filesystemSanitized(prefix) });
         //console.log(`fn :${fn}`)
         if (subdirectory !== null) {
@@ -42,12 +42,7 @@ class Ripper {
     }
 
     getPrefix(index) {
-        let prefix = "";
-        //if (keepSortOrder() && Utils.getConfigBoolean("download.save_order", true)) {
-        prefix = '_%03d'.format(index);
-        // }
-
-        return prefix;
+        return '_%03d'.format(index);
     }
 
     getfn({ url, prefix = null }) {
