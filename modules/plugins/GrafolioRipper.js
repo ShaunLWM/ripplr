@@ -1,6 +1,5 @@
 const Request = require('../Request');
 const AbstractRipper = require('../AbstractRipper');
-const async = require('async');
 const cheerio = require('cheerio');
 
 class GrafolioRipper extends AbstractRipper {
