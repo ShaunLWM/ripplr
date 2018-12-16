@@ -20,7 +20,7 @@ class Ripper {
         this.shouldStopNow = val;
     }
 
-    addURLToDownload(url, prefix, subdirectory = null, referrer = null, cookies = null, fileName = null, extension = null, getFileExtFromMime = false) {
+    addURLToDownload(url, prefix, fileName = null, subdirectory = null, referrer = null, cookies = null, extension = null, getFileExtFromMime = false) {
         // TODO: check if download before
         console.log('>> [ar] added: ' + url, prefix);
         let fn = this.getfn({ url, prefix: Utils.filesystemSanitized(prefix) });

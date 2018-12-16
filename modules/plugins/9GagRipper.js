@@ -1,7 +1,5 @@
 const Request = require('../Request');
 const AbstractRipper = require('../AbstractRipper');
-const async = require('async');
-const cheerio = require('cheerio');
 
 class NineGagRipper extends AbstractRipper {
     constructor(url) {
@@ -46,7 +44,7 @@ class NineGagRipper extends AbstractRipper {
 
         posts.forEach(post => {
             let images = post['images'];
-            for (const [key, value] of Object.entries(images)) {
+            for (const [, value] of Object.entries(images)) {
                 if (typeof value['url'] !== 'undefined') {
                     this.downloadUrl((value['url']));
                     break;
