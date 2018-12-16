@@ -2,7 +2,6 @@ require('string-format-js');
 const Utils = require('./Utils');
 const Path = require('path');
 const JobManager = require('./JobManager');
-const fs = require('fs-extra');
 
 class Ripper {
     constructor({ url, directory = "ripplr" }) {
@@ -20,10 +19,16 @@ class Ripper {
         this.shouldStopNow = val;
     }
 
-    addURLToDownload(url, prefix, fileName = null, subdirectory = null, referrer = null, cookies = null, extension = null, getFileExtFromMime = false) {
+    addURLToDownload(url, prefix, fileName = null, subdirectory = null) {
         // TODO: check if download before
-        console.log('>> [ar] added: ' + url, prefix);
-        let fn = this.getfn({ url, prefix: Utils.filesystemSanitized(prefix) });
+        console.log('>> [ar] added: ' + url, prefix, fileName);
+        let fn = Math.round((new Date()).getTime() / 1000); // just in case
+        if (prefix !== null) {
+            fn = this.getfn({ url, prefix: Utils.filesystemSanitized(prefix) });
+        } else if (fileName !== null) {
+            fn = this.getfn({ url, prefix: null, fileName });
+        }
+
         //console.log(`fn :${fn}`)
         if (subdirectory !== null) {
             subdirectory = Utils.filesystemSafe(subdirectory);
@@ -35,7 +40,7 @@ class Ripper {
         let saveFileAs = Path.join(__dirname, subdirectory);
         // fs.ensureDirSync(subdirectory);
         //console.log(saveFileAs);
-        this.jobManager.addJob({
+        return this.jobManager.addJob({
             url,
             dir: saveFileAs,
             fn: fn
@@ -46,11 +51,14 @@ class Ripper {
         return '_%03d'.format(index);
     }
 
-    getfn({ url, prefix = null }) {
+    getfn({ url, prefix = null, fileName = null }) {
         let fn = url.split('/').pop().split('#')[0].split('?')[0];
         if (prefix !== null) {
             let s = fn.split('.');
             fn = `${s[0]}${prefix}.${s[1]}`;
+        } else if (fileName !== null) {
+            let s = fn.split('.');
+            fn = `${fileName}.${s[1]}`;
         }
 
         return fn;
