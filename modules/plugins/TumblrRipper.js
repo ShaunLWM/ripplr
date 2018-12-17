@@ -4,7 +4,7 @@ const async = require('async');
 const cheerio = require('cheerio');
 
 class TumblrRipper extends AbstractRipper {
-    constructor(url) {
+    constructor({url}) {
         super({ url });
         this.index = 1;
         this.limitIncrement = 50;

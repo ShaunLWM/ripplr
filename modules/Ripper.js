@@ -23,7 +23,7 @@ class Ripper {
                 });
 
                 if (startNow) {
-                    return this.start({ url });
+                    return this.pluginManager.start({ url });
                 }
             }
 
@@ -33,10 +33,13 @@ class Ripper {
         }
     }
 
-    start({ url = null }) {
-        if (url !== null) {
-            
-        }
+    start() {
+        this._urls.forEach((element, index) => {
+            if (!element.started) {
+                this._urls[index].started = true;
+                return this.pluginManager.start(element);
+            }
+        });
     }
 }
 

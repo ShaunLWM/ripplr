@@ -2,7 +2,7 @@ const Request = require('../Request');
 const AbstractRipper = require('../AbstractRipper');
 
 class NineGagRipper extends AbstractRipper {
-    constructor(url) {
+    constructor({ url }) {
         super({ url });
         this.index = 1;
         this._domain = "9gag.com";

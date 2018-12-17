@@ -3,7 +3,7 @@ const Request = require('../Request');
 const cheerio = require('cheerio');
 
 class ImgboxRipper extends AbstractRipper {
-    constructor(url) {
+    constructor({ url }) {
         super({ url });
         this._host = 'imgbox';
         this._domain = 'imgbox.com';

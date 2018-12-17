@@ -25,6 +25,7 @@ class PluginManager {
 
     validateUrl(url) {
         try {
+            console.log(`>> validating ${url}`);
             const currentUrl = new URL(url);
             let result = this.pluginsMapping.filter(p => {
                 return currentUrl.host.endsWith(p.host);
@@ -38,6 +39,28 @@ class PluginManager {
         } catch (e) {
             console.error(e);
             return null;
+        }
+    }
+
+    start({ url, name, host }) {
+        let p;
+        switch (name) {
+            case 'Grafolio':
+                p = new this.Plugins.GrafolioRipper({ url });
+                p.rip();
+                break;
+            case 'Imgbox':
+                p = new this.Plugins.ImgboxRipper({ url });
+                p.rip();
+                break;
+            case 'NineGag':
+                p = new this.Plugins.NinGagRipper({ url: '' });
+                p.rip();
+                break;
+            case 'Tumblr':
+                p = new this.Plugins.TumblrRipper({ url });
+                p.rip();
+                break;
         }
     }
 }
