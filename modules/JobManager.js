@@ -13,7 +13,7 @@ let arena = Arena({
 });
 
 app.use('/', arena);
-app.listen(8081, () => console.log(`Queue server listening on port 8081!`));
+app.listen(8081, () => console.log(`>> queue server listening on port 8081`));
 
 class JobManager {
     constructor() {
@@ -24,7 +24,6 @@ class JobManager {
                 filename: job.data.fn
             }).then(() => {
                 console.log(`>> [jm] downloaded: ${job.data.url}`);
-                
                 return done();
             });
         });
