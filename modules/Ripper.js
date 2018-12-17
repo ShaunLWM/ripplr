@@ -43,4 +43,4 @@ class Ripper {
     }
 }
 
-module.exports = new Ripper();
+module.exports = Ripper;

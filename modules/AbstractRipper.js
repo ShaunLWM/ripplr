@@ -3,7 +3,7 @@ const Utils = require('./Utils');
 const Path = require('path');
 const JobManager = require('./JobManager');
 
-class Ripper {
+class AbstractRipper {
     constructor({ url, directory = "ripplr" }) {
         this.url = url; // !TODO sanitizeUrl
         this.directory = directory;
@@ -65,4 +65,4 @@ class Ripper {
     }
 }
 
-module.exports = Ripper;
+module.exports = AbstractRipper;
