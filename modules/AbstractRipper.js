@@ -21,7 +21,7 @@ class Ripper {
 
     addURLToDownload(url, prefix, fileName = null, subdirectory = null) {
         // TODO: check if download before
-        console.log('>> [ar] added: ' + url, prefix, fileName);
+        console.log('>> [ar] added: ' + url, prefix, fileName, subdirectory);
         let fn = Math.round((new Date()).getTime() / 1000); // just in case
         if (prefix !== null) {
             fn = this.getfn({ url, prefix: Utils.filesystemSanitized(prefix) });

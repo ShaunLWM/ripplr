@@ -1,12 +1,16 @@
 const AbstractRipper = require('../AbstractRipper');
 const Request = require('../Request');
 const cheerio = require('cheerio');
+const path = require('path');
 
 class ImgboxRipper extends AbstractRipper {
     constructor({ url }) {
         super({ url });
+        this.url = url;
+        this.galleryId = null;
         this._host = 'imgbox';
         this._domain = 'imgbox.com';
+        this.setup();
     }
 
     static get host() {
@@ -18,13 +22,13 @@ class ImgboxRipper extends AbstractRipper {
         return currentUrl.host.endsWith(this._domain);
     }
 
-    getGid(url) {
-        let match = /^https?:\/\/[wm.]*imgbox.com\/g\/([a-zA-Z0-9]+).*$/g.exec(url);
+    setup() {
+        let match = /^https?:\/\/[wm.]*imgbox.com\/g\/([a-zA-Z0-9]+).*$/g.exec(this.url);
         if (match !== null) {
-            return match[1];
+            return this.galleryId = match[1];
         }
 
-        throw new Error(`Expected imgbox.com URL format: imgbox.com/g/albumid - got ${url} instead`)
+        throw new Error(`Expected imgbox.com URL format: imgbox.com/g/albumid - got ${this.url} instead`)
     }
 
     async rip() {
@@ -57,7 +61,7 @@ class ImgboxRipper extends AbstractRipper {
     }
 
     downloadUrl(url, index) {
-        return this.addURLToDownload(url, this.getPrefix(index));
+        return this.addURLToDownload(url, super.getPrefix(index), null, path.join('Imgbox', this.galleryId));
     }
 }
 

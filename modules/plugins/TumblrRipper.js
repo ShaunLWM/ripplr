@@ -4,7 +4,7 @@ const async = require('async');
 const cheerio = require('cheerio');
 
 class TumblrRipper extends AbstractRipper {
-    constructor({url}) {
+    constructor({ url }) {
         super({ url });
         this.index = 1;
         this.limitIncrement = 50;
@@ -21,7 +21,6 @@ class TumblrRipper extends AbstractRipper {
         this.subdomain = null;
         this.tagName = null;
         this.postNumber = null;
-        this.TUMBLR_AUTH_CONFIG_KEY = "tumblr.auth";
         this.useDefaultApiKey = false;
         this.API_KEY = null;
         this.tagBeforeTimestamp = Math.round((new Date()).getTime() / 1000);
@@ -297,7 +296,7 @@ class TumblrRipper extends AbstractRipper {
     }
 
     downloadUrl(url) {
-        this.addURLToDownload(url, this.getPrefix(this.index));
+        this.addURLToDownload(url, super.getPrefix(this.index), null, this.subdomain);
         this.index++;
     }
 }

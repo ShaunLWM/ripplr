@@ -1,6 +1,7 @@
 const Request = require('../Request');
 const AbstractRipper = require('../AbstractRipper');
 const cheerio = require('cheerio');
+const path = require('path');
 
 class GrafolioRipper extends AbstractRipper {
     constructor({ url }) {
@@ -82,7 +83,7 @@ class GrafolioRipper extends AbstractRipper {
     }
 
     downloadUrl(url, id) {
-        this.addURLToDownload(url, null, id);
+        this.addURLToDownload(url, null, id, path.join('Grafolio', this.creatorId));
     }
 }
 

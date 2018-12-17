@@ -25,7 +25,6 @@ class PluginManager {
 
     validateUrl(url) {
         try {
-            console.log(`>> validating ${url}`);
             const currentUrl = new URL(url);
             let result = this.pluginsMapping.filter(p => {
                 return currentUrl.host.endsWith(p.host);

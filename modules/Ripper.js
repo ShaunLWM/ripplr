@@ -15,16 +15,16 @@ class Ripper {
             let result = this.pluginManager.validateUrl(url);
             if (result !== null) {
                 console.log(`>> [ripper addUrl] plugin [${result.name}] found: ${url}`);
-                this._urls.push({
-                    url,
-                    name: result.name,
-                    host: result.host,
-                    started: startNow
-                });
-
                 if (startNow) {
                     return this.pluginManager.start({ url });
                 }
+
+                return this._urls.push({
+                    url,
+                    name: result.name,
+                    host: result.host,
+                    started: false
+                });
             }
 
             return console.error(`!> [ripper addUrl] no plugin found: ${url}`)
