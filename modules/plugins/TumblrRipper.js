@@ -8,8 +8,8 @@ class TumblrRipper extends AbstractRipper {
         super({ url });
         this.index = 1;
         this.limitIncrement = 50;
-        this.DOMAIN = "tumblr.com";
-        this.HOST = "tumblr";
+        this.domain = "tumblr.com";
+        this._host = "tumblr";
         this.ALBUM_TYPE = {
             SUBDOMAIN: 0,
             TAG: 1,
@@ -30,6 +30,10 @@ class TumblrRipper extends AbstractRipper {
         }
 
         this.setup();
+    }
+
+    static get host() {
+        return this._host;
     }
 
     getApiKey() {
@@ -54,7 +58,7 @@ class TumblrRipper extends AbstractRipper {
 
     canRip(url) {
         const currentUrl = new URL(url);
-        return currentUrl.host.endsWith(this.DOMAIN);
+        return currentUrl.host.endsWith(this.domain);
     }
 
     async sanitizeUrl() {
@@ -97,10 +101,6 @@ class TumblrRipper extends AbstractRipper {
         }
 
         return `https://api.tumblr.com/v2/blog/${this.subdomain}/posts/${mediaType}?api_key=${this.getApiKey()}&offset=${offset}&limit=50`;
-    }
-
-    get host() {
-        return this.HOST;
     }
 
     async rip() {

@@ -5,14 +5,18 @@ class NineGagRipper extends AbstractRipper {
     constructor(url) {
         super({ url });
         this.index = 1;
-        this.DOMAIN = "9gag.com";
-        this.HOST = "9gag";
+        this._domain = "9gag.com";
+        this._host = "9gag";
         this.nextCursor = '';
+    }
+
+    static get host() {
+        return this._host;
     }
 
     canRip(url) {
         const currentUrl = new URL(url);
-        return currentUrl.host.endsWith(this.DOMAIN);
+        return currentUrl.host.endsWith(this._domain);
     }
 
     async rip() {

@@ -8,9 +8,14 @@ String.prototype.count = function (s1) {
 // ripper.getGid('https://junkerratboy.tumblr.com/');
 // ripper.rip();
 
-const ImgboxRipper = require('./modules/plugins/ImgboxRipper');
-let ripper = new ImgboxRipper('http://imgbox.com/g/wKThIDe15b');
-// ripper.getGid('https://junkerratboy.tumblr.com/');
-ripper.rip();
+// const ImgboxRipper = require('./modules/plugins/ImgboxRipper');
+// let ripper = new ImgboxRipper('http://imgbox.com/g/wKThIDe15b');
+// // ripper.getGid('https://junkerratboy.tumblr.com/');
+// ripper.rip();
 
 // console.log('%03d_'.format(1233) )
+try {
+    let url = new URL('wadawda');
+} catch (e) {
+    console.error(e);
+}

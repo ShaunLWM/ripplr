@@ -1,3 +1,3 @@
-const Ripper = require('../../modules/plugins/9GagRipper');
+const Ripper = require('../../modules/plugins/NineGagRipper');
 let ripper = new Ripper();
 // ripper.rip();

@@ -1,0 +1,1 @@
+let manager = require('../modules/PluginManager');

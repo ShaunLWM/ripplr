@@ -5,14 +5,17 @@ const cheerio = require('cheerio');
 class ImgboxRipper extends AbstractRipper {
     constructor(url) {
         super({ url });
+        this._host = 'imgbox';
+        this._domain = 'imgbox.com';
     }
 
-    getHost() {
-        return 'imgbox';
+    static get host() {
+        return this._host;
     }
 
-    getDomain() {
-        return 'imgbox.com';
+    canRip(url) {
+        const currentUrl = new URL(url);
+        return currentUrl.host.endsWith(this._domain);
     }
 
     getGid(url) {

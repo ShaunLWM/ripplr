@@ -8,6 +8,18 @@ class GrafolioRipper extends AbstractRipper {
         this.url = url;
         this.creatorId = null;
         this.maxPage = 0;
+
+        this._domain = 'grafolio.com';
+        this._host = 'grafolio';
+    }
+
+    static get host() {
+        return this._host;
+    }
+
+    canRip(url) {
+        const currentUrl = new URL(url);
+        return currentUrl.host.endsWith(this._domain);
     }
 
     async rip() {
