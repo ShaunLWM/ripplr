@@ -15,11 +15,11 @@ class PluginManager {
             let name = `${p.name}Ripper`;
             let filePath = `${__dirname}/plugins/${name}.js`;
             if (!fs.existsSync(filePath)) {
-                return console.error(`!> failed to load ${p.name} plugin`);
+                return console.error(`!> [pm] failed to load ${p.name} plugin`);
             }
 
             this.pluginsMapping.push(p);
-            return console.log(`>> loaded ${p.name} plugin`);
+            return console.info(`>> [pm] loaded ${p.name} plugin`);
         });
     }
 

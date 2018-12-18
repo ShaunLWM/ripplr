@@ -25,7 +25,7 @@ class TumblrRipper extends AbstractRipper {
         this.API_KEY = null;
         this.tagBeforeTimestamp = Math.round((new Date()).getTime() / 1000);
         if (this.getApiKey() === null) {
-            throw new Error("Could not find tumblr authentication key in configuration");
+            throw new Error("!> [tumblr const] could not find tumblr authentication key in configuration");
         }
 
         this.setup();
@@ -64,15 +64,15 @@ class TumblrRipper extends AbstractRipper {
         if (this.url.count(".") > 2) {
             this.url = this.url.replace(/.tumblr.com/g, '');
             if (await this.isTumblrUrl()) {
-                console.debug(`>> detected tumblr site: ${this.url}`);
+                console.debug(`>> [tumblr sanitizeUrl] detected tumblr site: ${this.url}`);
             } else {
-                console.debug(`>> not a tumblr site: ${this.url}`);
+                console.debug(`>> [tumblr sanitizeUrl] not a tumblr site: ${this.url}`);
             }
         }
     }
 
     async isTumblrUrl() {
-        console.info(`i> checking if ${this.url} is a tumblr url..`);
+        console.info(`i> [tumblr isTumblrUrl] checking if ${this.url} is a tumblr url..`);
         const currentUrl = new URL(this.url);
         let checkUrl = `https://api.tumblr.com/v2/blog/${currentUrl.host}/info?api_key=${this.getApiKey()}`;
         try {
@@ -81,7 +81,7 @@ class TumblrRipper extends AbstractRipper {
             let status = parseInt((JSON.parse(result))["meta"]["status"]);
             return status === 200;
         } catch (e) {
-            console.error(`!> Error while checking possible tumblr domain: ${currentUrl.host}`, e);
+            console.error(`!> [tumblr isTumblrUrl] Error while checking possible tumblr domain: ${currentUrl.host}`, e);
             return e;
         }
     }
@@ -106,10 +106,10 @@ class TumblrRipper extends AbstractRipper {
         let mediaTypes = [];
         let shouldStopRipping = false;
         if (this.albumType === this.ALBUM_TYPE.POST) {
-            console.info(`i> ripping post only`);
+            console.info(`i> [tumblr rip] ripping post only`);
             mediaTypes = ['post'];
         } else {
-            console.info(`i> ripping photos/videos only`);
+            console.info(`i> [tumblr rip] ripping photos/videos only`);
             mediaTypes = ['photo', 'video'];
         }
 
@@ -126,7 +126,7 @@ class TumblrRipper extends AbstractRipper {
                 }
 
                 let apiUrl = this.getTumblrApiURL(mediaType, offset);
-                console.log(`>> Retreiving: ${apiUrl}`);
+                console.log(`>>  [tumblr rip] retreiving: ${apiUrl}`);
                 let retry = false;
                 try {
                     let getInfo = new Request({ url: apiUrl });
@@ -140,21 +140,21 @@ class TumblrRipper extends AbstractRipper {
 
                                 break;
                             case 404:
-                                console.error('!> no user or album found!');
+                                console.error('!> [tumblr rip ] no user or album found!');
                                 shouldStopRipping = true;
                                 break;
                             case 429:
-                                console.error('!> tumblr rate limit has been exceeded');
+                                console.error('!> [tumblr rip ] rate limit has been exceeded');
                                 shouldStopRipping = true;
                                 break;
                         }
                     }
 
                     if (retry) {
-                        console.debug('#> retrying..');
+                        console.info('#> [tumblr rip ] retrying..');
                         this.useDefaultApiKey = true;
                         let apiKey = this.getApiKey();
-                        console.error(`!> 401 Unauthorized. Will retry with default Tumblr API key:${apiKey}`);
+                        console.error(`!> [tumblr rip ] 401 Unauthorized. Will retry with default Tumblr API key:${apiKey}`);
                         // !TODO save the default key to the config
                         apiUrl = this.getTumblrApiURL(mediaType, offset);
                         getInfo = new Request({ url: apiUrl });
@@ -162,11 +162,11 @@ class TumblrRipper extends AbstractRipper {
                     }
 
                     if (!this.handleJson(result)) {
-                        console.error(`!> unable to handleJson()`);
+                        console.error(`!> [tumblr rip ] unable to handleJson()`);
                         break;
                     }
                 } catch (e) {
-                    console.error(`!> error: ${e}`);
+                    console.error(`!> [tumblr rip ] error: ${e}`);
                 }
 
                 if (this.albumType === this.ALBUM_TYPE.POST) { // normally 1 post only
@@ -181,10 +181,10 @@ class TumblrRipper extends AbstractRipper {
             }
         }, function (err) {
             if (err) {
-                console.error(`!> async  ${err}`);
+                console.error(`!> [tumblr rip ] async  ${err}`);
             }
 
-            console.log('>> Done');
+            console.log('>> [tumblr rip ] Done');
         });
     }
 
@@ -202,7 +202,7 @@ class TumblrRipper extends AbstractRipper {
         }
 
         if (posts.length < 1) {
-            console.error('!> zero posts returned');
+            console.error('!> [tumblr handleJson ] zero posts returned');
             return false;
         }
 
@@ -237,7 +237,7 @@ class TumblrRipper extends AbstractRipper {
             }
         });
 
-        console.log('>> Done parsing json.');
+        console.log('>> [tumblr handleJson ] Done parsing json.');
         return true;
     }
 
@@ -247,7 +247,7 @@ class TumblrRipper extends AbstractRipper {
         // Tagged URL
         let match = /^https?:\/\/([a-zA-Z0-9\-.]+)\/tagged\/([a-zA-Z0-9\-%]+).*$/g.exec(this.url);
         if (match !== null) {
-            console.info('!> is a tagged url');
+            console.info('!> [tumblr setup ] is a tagged url');
             this.albumType = this.ALBUM_TYPE.TAG;
             this.subdomain = match[1];
             this.tagName = match[2];
@@ -258,7 +258,7 @@ class TumblrRipper extends AbstractRipper {
         // Post URL
         match = /^https?:\/\/([a-zA-Z0-9\-.]+)\/post\/([0-9]+).*$/g.exec(this.url);
         if (match !== null) {
-            console.info('!> is a post url');
+            console.info('!> [tumblr setup ] is a post url');
             this.albumType = this.ALBUM_TYPE.POST;
             this.subdomain = match[1];
             this.postNumber = match[2];
@@ -268,7 +268,7 @@ class TumblrRipper extends AbstractRipper {
         // Subdomain level URL
         match = /^https?:\/\/([a-zA-Z0-9\-.]+)\/?$/g.exec(this.url);
         if (match !== null) {
-            console.info('!> is a normal url');
+            console.info('!> [tumblr setup ] is a normal url');
             this.albumType = this.ALBUM_TYPE.SUBDOMAIN;
             this.subdomain = match[1];
             return this.subdomain;
@@ -277,7 +277,7 @@ class TumblrRipper extends AbstractRipper {
         // Likes URL
         match = /https?:\/\/([a-z0-9_-]+).tumblr.com\/likes/g.exec(this.url);
         if (match !== null) {
-            console.info('!> is a likes url');
+            console.info('!> [tumblr setup ] is a likes url');
             this.albumType = this.ALBUM_TYPE.LIKED;
             this.subdomain = match[1];
             return `${this.subdomain}_liked`;
@@ -286,17 +286,17 @@ class TumblrRipper extends AbstractRipper {
         // Likes url different format
         match = /https:\/\/www\.tumblr\.com\/liked\/by\/([a-z0-9_-]+)/g.exec(this.url);
         if (match !== null) {
-            console.info('!> is a likes [2] url');
+            console.info('!> [tumblr setup ] is a likes [2] url');
             this.albumType = this.ALBUM_TYPE.LIKED;
             this.subdomain = match[1];
             return `${this.subdomain}_liked`;
         }
 
-        return new Error('Expected format: https://subdomain[.tumblr.com][/tagged/tag|/post/postno]');
+        return new Error(' [tumblr setup ] expected format: https://subdomain[.tumblr.com][/tagged/tag|/post/postno]');
     }
 
     downloadUrl(url) {
-        this.addURLToDownload(url, super.getPrefix(this.index), null, this.subdomain);
+        super.addURLToDownload(url, super.getPrefix(this.index), null, this.subdomain);
         return this.index++;
     }
 }

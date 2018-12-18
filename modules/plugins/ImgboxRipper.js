@@ -28,7 +28,7 @@ class ImgboxRipper extends AbstractRipper {
             return this.galleryId = match[1];
         }
 
-        throw new Error(`Expected imgbox.com URL format: imgbox.com/g/albumid - got ${this.url} instead`)
+        throw new Error(`[imgbox setup] expected imgbox.com URL format: imgbox.com/g/albumid - got ${this.url} instead`)
     }
 
     async rip() {
@@ -37,7 +37,7 @@ class ImgboxRipper extends AbstractRipper {
             let getInfo = new Request({ url: this.url });
             let result = await getInfo.commit(false);
             if (!isNaN(result)) { // if returned a status code
-                throw new Error(`!> status code is not 200 ${result}`);
+                throw new Error(`!> [imgbox rip] status code is not 200 ${result}`);
             }
 
             let $ = cheerio.load(result);

@@ -22,7 +22,7 @@ class AbstractRequest {
     async commit(statusCodeAsError = true) {
         return new Promise((resolve, reject) => {
             if (typeof this.options.url === 'undefined' || this.options.url === null) {
-                throw new Error("!> no url defined");
+                throw new Error("!> [request commit] no url defined");
             }
 
             return request(this.options, (error, response, body) => {
