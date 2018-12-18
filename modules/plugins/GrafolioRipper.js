@@ -83,7 +83,7 @@ class GrafolioRipper extends AbstractRipper {
     }
 
     downloadUrl(url, id) {
-        this.addURLToDownload(url, null, id, path.join('Grafolio', this.creatorId));
+        return super.addURLToDownload(url, null, id, path.join('Grafolio', this.creatorId));
     }
 }
 

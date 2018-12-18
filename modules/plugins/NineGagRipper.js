@@ -61,8 +61,8 @@ class NineGagRipper extends AbstractRipper {
     }
 
     downloadUrl(url) {
-        this.addURLToDownload(url, super.getPrefix(this.index), null, '9gag');
-        this.index++;
+        super.addURLToDownload(url, super.getPrefix(this.index), null, '9gag');
+        return this.index++;
     }
 }
 

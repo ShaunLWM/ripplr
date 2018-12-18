@@ -61,7 +61,7 @@ class ImgboxRipper extends AbstractRipper {
     }
 
     downloadUrl(url, index) {
-        return this.addURLToDownload(url, super.getPrefix(index), null, path.join('Imgbox', this.galleryId));
+        return super.addURLToDownload(url, super.getPrefix(index), null, path.join('Imgbox', this.galleryId));
     }
 }
 

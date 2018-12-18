@@ -297,7 +297,7 @@ class TumblrRipper extends AbstractRipper {
 
     downloadUrl(url) {
         this.addURLToDownload(url, super.getPrefix(this.index), null, this.subdomain);
-        this.index++;
+        return this.index++;
     }
 }
 
